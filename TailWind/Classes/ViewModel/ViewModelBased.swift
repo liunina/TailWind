@@ -1,0 +1,91 @@
+//
+//  ViewModelBased.swift
+//  TailWind
+//
+//  Created by liu nian on 2021/4/19.
+//
+
+import Foundation
+import UIKit
+
+public protocol ViewModelBased {
+	associatedtype ViewModelType
+
+	var viewModel: ViewModelType! { get set }
+}
+
+// MARK: 带VM的构造函数(代码)
+
+public extension ViewModelBased where Self: UIView {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType) -> Self {
+		var view = Self(frame: .zero)
+		view.viewModel = viewModel
+		return view
+	}
+}
+
+public extension ViewModelBased where Self: UIViewController {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType) -> Self {
+		var viewController = Self()
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
+
+public extension ViewModelBased where Self: UITableViewController {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType, style: UITableView.Style) -> Self {
+		var viewController = Self(style: style)
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
+
+public extension ViewModelBased where Self: UICollectionViewController {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType, layout: UICollectionViewLayout) -> Self {
+		var viewController = Self(collectionViewLayout: layout)
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
+
+// MARK: -  通过NIB构造
+// MARK: UIViewController
+public extension ViewModelBased where Self: UIViewController, Self: NibBased {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType) -> Self {
+		var viewController = Self(nibName: nibName, bundle: Bundle(for: self))
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
+
+// MARK: UITableViewController
+public extension ViewModelBased where Self: UITableViewController, Self: NibBased {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType) -> Self {
+		var viewController = Self(nibName: nibName, bundle: Bundle(for: self))
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
+
+// MARK: UICollectionViewController
+public extension ViewModelBased where Self: UICollectionViewController, Self: NibBased {
+	// MARK: Static functions
+
+	static func instantiate(viewModel: Self.ViewModelType) -> Self {
+		var viewController = Self(nibName: nibName, bundle: Bundle(for: self))
+		viewController.viewModel = viewModel
+		return viewController
+	}
+}
